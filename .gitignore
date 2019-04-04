@@ -30,3 +30,22 @@
 *.exe
 *.out
 *.app
+
+# VC
+*.pdb
+*.log
+*.tlog
+*.aps
+*.ipch
+*.zip
+*.bak
+*.manifest
+*.lastbuildstate
+*.res
+*.user
+*.ncb
+*.sdf
+*.idb
+*.cache
+*.unsuccessfulbuild
+*.opensdf

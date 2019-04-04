@@ -1,0 +1,27 @@
+[config]
+#server port
+port=10010
+
+#redis ip
+rip=r-uf67f5d4d55af2a4.redis.rds.aliyuncs.com
+
+#redis port
+rport=6379
+
+#redis password
+rpwd=Abc123456
+
+#redis db
+rdb=0
+
+#post hostname
+hostname=xyzbgameinner.96k.com
+
+#aliyun listen port
+lport=10011
+
+#daemon
+daemon=0
+
+#debug level
+debuglevel=0

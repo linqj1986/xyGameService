@@ -1,0 +1,26 @@
+[config]
+#server port
+port=10110
+
+#redis ip
+rip=127.0.0.1
+
+#redis port
+rport=6379
+
+#redis password
+rpwd=helloredis
+
+rdb=0
+
+#post hostname
+hostname=xyzbgame.96k.com
+
+#aliyun listen port
+lport=10111
+
+#daemon
+daemon=0
+
+#debug level
+debuglevel=0
