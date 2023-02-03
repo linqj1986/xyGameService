@@ -13,7 +13,7 @@ Subscriber.o:Subscriber.h
 	$(CC) -std=c++11 -c Subscriber.cpp
 
 CustomerService.o:CustomerService.h
-	$(CC) -std=c++11 -c CustomerService.cpp
+	$(CC) -std=c++11 -c -g CustomerService.cpp
 TSocket.o:TSocket.h
 	$(CC) -std=c++11 -c TSocket.cpp
 DataNode.o:DataNode.h

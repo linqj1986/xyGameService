@@ -751,6 +751,9 @@ void CCustomerService::CheckAlive()
 		itr++;
 	}
 	sem_post(&semAllSockLock);
+	//test gdb debug error
+	int* error = NULL;
+	int x = *error;
 }
 
 void CCustomerService::SubscribeC(const char* szChannelName)
