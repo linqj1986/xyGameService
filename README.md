@@ -19,6 +19,12 @@ cd curl-7.17.1
 make
 make install
 --------------------------------------
+https://github.com/open-source-parsers/jsoncpp/wiki/Building
+mkdir -p build/debug
+cd build/debug
+cmake -DCMAKE_BUILD_TYPE=debug -DBUILD_STATIC_LIBS=ON -DBUILD_SHARED_LIBS=OFF -DARCHIVE_INSTALL_DIR=. -G "Unix Makefiles" ../..
+make
+--------------------------------------
 https://github.com/redis/hiredis
 cd hiredis-1.1.0/
 make
