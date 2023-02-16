@@ -24,7 +24,7 @@ void fault_trap(int n, siginfo_t *siginfo,void *myact)
         num = backtrace(buffer, SIZE);
         calls = backtrace_symbols(buffer, num);
         for (i = 0; i < num; i++)
-                printf("%s\n", calls[i]);
+            printf("%s\n", calls[i]);
         exit(1);
 }
 void setuptrap()
@@ -38,19 +38,19 @@ void setuptrap()
 
 int main(int argc, char *argv[])
 {
-	// curl¿â³õÊ¼»¯
+	// curlï¿½ï¿½ï¿½Ê¼ï¿½ï¿½
 	curl_global_init(CURL_GLOBAL_ALL);
 
 	CParseIniFile ini;
 
-	//³õÊ¼»¯ÎªDaemon
+	//ï¿½ï¿½Ê¼ï¿½ï¿½ÎªDaemon
 	string strDaemon = ini.GetValue("cfg","config","daemon");
 	int nDaemon=atoi(strDaemon.c_str());
 	if(nDaemon==1)
 	{
 		//daemon(1,1);
 	}
-	//ÈÕÖ¾µÈ¼¶
+	//ï¿½ï¿½Ö¾ï¿½È¼ï¿½
 	string strLevel = ini.GetValue("cfg","config","debuglevel");
 	int nLevel=atoi(strLevel.c_str());
 	CPrintLog::GetInstance()->SetDebugLevel(nLevel);
@@ -58,11 +58,11 @@ int main(int argc, char *argv[])
 	signal(SIGPIPE, SIG_IGN);
 	//setuptrap();
 
-	// ÅäÖÃ
+	// ï¿½ï¿½ï¿½ï¿½
 	string strPort = ini.GetValue("cfg","config","port");
 	int nPort=atoi(strPort.c_str());
 	
-	// ÔËÐÐ·þÎñ
+	// ï¿½ï¿½ï¿½Ð·ï¿½ï¿½ï¿½
 	unsigned int uPort = g_oDataService.Run(nPort,0);
 	CPrintLog::GetInstance()->SetServerPort(uPort);
 	if(uPort==0)
@@ -72,19 +72,19 @@ int main(int argc, char *argv[])
 	}
 	CPrintLog::GetInstance()->LogFormat(LOG_NORMAL,"---------------Server Run Success,port=%d---------------\n",uPort);
 	
-	// ¸ºÔØ¾ùºâ¼àÌý·þÎñ
+	// ï¿½ï¿½ï¿½Ø¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	string strListenPort = ini.GetValue("cfg","config","lport");
 	int nListenPort=atoi(strListenPort.c_str());
 	CListenService listenService;
 	uPort = listenService.Run(nListenPort,0);
 	CPrintLog::GetInstance()->LogFormat(LOG_NORMAL,"---------------ListenServer Run Success,port=%d---------------\n",uPort);
 
-	// µÈ´ý½áÊø
+	// ï¿½È´ï¿½ï¿½ï¿½ï¿½ï¿½
 	while(1)
 	{
-		sleep(60);//Ë¯ÃßÒ»·ÖÖÓ
+		sleep(60);//Ë¯ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½
 	}
 	
-	//curl¿âÊÍ·Å
+	//curlï¿½ï¿½ï¿½Í·ï¿½
 	curl_global_cleanup();
 }

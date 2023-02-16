@@ -1,0 +1,9 @@
+{
+    "files.associations": {
+        "datasender.h": "c",
+        "datanode.h": "c",
+        "datapacket.h": "c",
+        "datasocket.h": "c",
+        "vector": "c"
+    }
+}

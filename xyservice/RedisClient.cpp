@@ -1,5 +1,5 @@
 #include "RedisClient.h"
-#include<boost/shared_ptr.hpp>
+//#include<boost/shared_ptr.hpp>
 #include "PrintLog.h"
 
 CRedisClient::CRedisClient()
@@ -35,7 +35,7 @@ bool CRedisClient::ExecuteCmd(string &response,const char *fmt, vector<string>& 
     redisReply *reply = ExecuteCmd(fmt, vec);
     if(reply == NULL) return false;
 
-    boost::shared_ptr<redisReply> autoFree(reply, freeReplyObject);
+    //boost::shared_ptr<redisReply> autoFree(reply, freeReplyObject);
     if(reply->type == REDIS_REPLY_INTEGER)
     {
         char szVal[20]={0};
@@ -82,7 +82,7 @@ bool CRedisClient::ExecuteArrayCmd(vector<string>& vecKeys, vector<string>& vecV
     redisReply *reply = ExecuteCmd(fmt, vec);
     if(reply == NULL) return false;
 
-    boost::shared_ptr<redisReply> autoFree(reply, freeReplyObject);
+    //boost::shared_ptr<redisReply> autoFree(reply, freeReplyObject);
     if(reply->type == REDIS_REPLY_ARRAY)
     {
     	for (int i=0;i<reply->elements;i++)
@@ -168,7 +168,7 @@ redisContext* CRedisClient::CreateContext()
 	string strCommandLogin = "AUTH ";
 	strCommandLogin += mstrPsw;
 	redisReply* r = (redisReply*)redisCommand(ctx, strCommandLogin.c_str());
-        boost::shared_ptr<redisReply> autoFree(r, freeReplyObject);
+    //boost::shared_ptr<redisReply> autoFree(r, freeReplyObject);
 	if( NULL == r)
 	{//失败
 		CPrintLog::GetInstance()->LogFormat(LOG_ERROR,"CRedisPublisher:Login failure\n");
@@ -191,7 +191,7 @@ redisContext* CRedisClient::CreateContext()
 	string strCommandSelect = "SELECT ";
 	strCommandSelect += mstrDb;
 	redisReply* r = (redisReply*)redisCommand(ctx, strCommandSelect.c_str());
-	boost::shared_ptr<redisReply> autoFree(r, freeReplyObject);
+	//boost::shared_ptr<redisReply> autoFree(r, freeReplyObject);
 	if( NULL == r)
 	{//失败
 		CPrintLog::GetInstance()->LogFormat(LOG_ERROR,"CRedisPublisher:SELECT failure\n");
@@ -226,7 +226,7 @@ bool CRedisClient::CheckStatus(redisContext *ctx)
     redisReply *reply = (redisReply*)redisCommand(ctx, "ping");
     if(reply == NULL) return false;
 
-    boost::shared_ptr<redisReply> autoFree(reply, freeReplyObject);
+    //boost::shared_ptr<redisReply> autoFree(reply, freeReplyObject);
 
     if(reply->type != REDIS_REPLY_STATUS) return false;
     if(strcasecmp(reply->str,"PONG") != 0) return false;

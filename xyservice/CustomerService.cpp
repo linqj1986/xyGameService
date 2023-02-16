@@ -15,7 +15,7 @@ void GlobalReSubscribeAll(void* p)
 
 void recieve_message(const std::string&channel_name, const std::string&message)
 {
-	// redis¶©ÔÄ»Øµ÷
+	// redisï¿½ï¿½ï¿½Ä»Øµï¿½
 	if(( g_pCustomerService!=NULL )&&(message.length()!=0))
 	{
 		//g_pCustomerService->DoSubscriberMsg(channel_name,message);
@@ -96,14 +96,14 @@ void CCustomerService::DoSubscriberMsg(const char *channel_name,const char *mess
 	Json::Reader jReader(Json::Features::strictMode());
 	if(jReader.parse((const char*)message,jRoot))
 	{
-		// ÓÎÏ·¹ý³ÌÍ¨Öª
+		// ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½Í¨Öª
 		if((!jRoot["LastUserId"].isNull()) &&(!jRoot["CurUserId"].isNull()))
 		{
 			char szCurUserId[20]={0};
 			sprintf(szCurUserId,"%d",jRoot["CurUserId"].asInt());
 
     			bool bFound=false;
-			// »ñÈ¡×îÐÂÊý¾Ý
+			// ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			CHANNELIT itrM = m_mapChannel.find(channel_name);
 			if( itrM!=m_mapChannel.end() )
 			{
@@ -112,7 +112,7 @@ void CCustomerService::DoSubscriberMsg(const char *channel_name,const char *mess
 				{
 					if( strcmp(szCurUserId, (*itListFind)->GetUserId().c_str())==0 )
 					{
-						bFound = true;//ÊÇ±¾·þÎñÆ÷ÓÃ»§
+						bFound = true;//ï¿½Ç±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½
 						break;
 					}
 					itListFind++;
@@ -146,7 +146,7 @@ void CCustomerService::DoSubscriberMsg(const char *channel_name,const char *mess
 					itrM->second.bThisServer = false;
 				}
 
-				// ±éÀú¿Í»§¶ËÍ¨ÖªÓÃ»§±ä¸ü
+				// ï¿½ï¿½ï¿½ï¿½ï¿½Í»ï¿½ï¿½ï¿½Í¨Öªï¿½Ã»ï¿½ï¿½ï¿½ï¿½
 				list<CCustomerClient*>::iterator itL = itrM->second.clientList.begin();
 				while( itL != itrM->second.clientList.end() )
 				{
@@ -156,17 +156,17 @@ void CCustomerService::DoSubscriberMsg(const char *channel_name,const char *mess
 				BroadcastViewer( COMMANDTYPE_S2C_GAMECOMMANDRET,message,channel_name);
 			}
 		}
-		// ²ÎÓëÕß¹ã²¥Í¨Öª
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ß¹ã²¥Í¨Öª
 		if(!jRoot["UserIds"].isNull())
 		{
 			bool bNormal = true;
 			string strChannelName=channel_name;
 			string strNextChannelName=channel_name;
 			int nNewGameId = 0;
-			// TODOÔÙÀ´Ò»¾ÖµÄ¹ã²¥
+			// TODOï¿½ï¿½ï¿½ï¿½Ò»ï¿½ÖµÄ¹ã²¥
 			if((!jRoot["NextGameId"].isNull()) && (jRoot["NextGameId"].isInt()))
 			{
-				// ÅÐ¶ÏÐÂÓÎÏ·ÆµµÀÊÇ·ñ´æÔÚ£¬²»´æÔÚÔòÎªÆäËû·þÎñÆ÷Í¨Öª¹ýÀ´µÄ£¬½øÐÐÐÂ¾Ö¸´ÖÆ
+				// ï¿½Ð¶ï¿½ï¿½ï¿½ï¿½ï¿½Ï·Æµï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½Ú£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¨Öªï¿½ï¿½ï¿½ï¿½ï¿½Ä£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¾Ö¸ï¿½ï¿½ï¿½
 				nNewGameId = jRoot["NextGameId"].asInt();
 				char szNextChannelName[100]={0};
 				sprintf(szNextChannelName,"1_%d",nNewGameId);
@@ -179,7 +179,7 @@ void CCustomerService::DoSubscriberMsg(const char *channel_name,const char *mess
 
 				CHANNELIT itr = m_mapChannel.find(strNextChannelName.c_str());
 				if( itr==m_mapChannel.end() )
-				{/* ÐÂÆµµÀ²»´æÔÚÔò¶©ÔÄÆµµÀ */
+				{/* ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æµï¿½ï¿½ */
 					TagGame tagGame;
 					tagGame.nGameOverTime = 0x7ffffffd;
 					tagGame.bThisServer = false;
@@ -195,7 +195,7 @@ void CCustomerService::DoSubscriberMsg(const char *channel_name,const char *mess
 						                             strNextChannelName.c_str());	
 				}
 				
-				// ¾É¾ÖÍæ¼Ò×·¼ÓÈëÐÂ¾ÖÖÐ
+				// ï¿½É¾ï¿½ï¿½ï¿½ï¿½×·ï¿½ï¿½ï¿½ï¿½ï¿½Â¾ï¿½ï¿½ï¿½
 				list<CCustomerClient*> listLastTemp;
 				CHANNELIT itrM = m_mapChannel.find(channel_name);
 				if( itrM!=m_mapChannel.end() )
@@ -203,10 +203,10 @@ void CCustomerService::DoSubscriberMsg(const char *channel_name,const char *mess
 					int nMaxTime = itrM->second.nMaxTime;
 					int nMinTime = itrM->second.nMinTime;
 
-					// ÌáÈ¡¾É¾ÖÍæ¼Ò
+					// ï¿½ï¿½È¡ï¿½É¾ï¿½ï¿½ï¿½ï¿½
 					listLastTemp = itrM->second.clientList;
 					
-					// °Ñ¾É¾ÖÍæ¼Ò¼ÓÈëÐÂ¾Ö
+					// ï¿½Ñ¾É¾ï¿½ï¿½ï¿½Ò¼ï¿½ï¿½ï¿½ï¿½Â¾ï¿½
 					CHANNELIT itrNew = m_mapChannel.find(strNextChannelName.c_str());
 					if( itrNew!=m_mapChannel.end() )
 					{
@@ -227,7 +227,7 @@ void CCustomerService::DoSubscriberMsg(const char *channel_name,const char *mess
 						}
 					}
 
-					// Çå³ý¾ÉµÄÍæ¼Ò£¬ÓÎÏ·id
+					// ï¿½ï¿½ï¿½ï¿½Éµï¿½ï¿½ï¿½Ò£ï¿½ï¿½ï¿½Ï·id
 					itrM->second.clientList.clear();
 					m_mapChannel.erase(itrM);
 
@@ -237,16 +237,16 @@ void CCustomerService::DoSubscriberMsg(const char *channel_name,const char *mess
 					sem_post(&g_pCustomerService->semUnSubQueLock);
 				}
 
-				// ¾É¾Ö¹ÛÖÚ×·¼ÓÈëÐÂ¾ÖÖÐ
+				// ï¿½É¾Ö¹ï¿½ï¿½ï¿½×·ï¿½ï¿½ï¿½ï¿½ï¿½Â¾ï¿½ï¿½ï¿½
 				sem_wait(&semViewerLock);
 				map<CCustomerClient*,CCustomerClient*> mapLastTemp;
 				map< string,map<CCustomerClient*,CCustomerClient*> >::iterator itrLast = m_mapViewer.find(channel_name);
 				if( itrLast!=m_mapViewer.end() )
 				{  
-					// ÌáÈ¡¾É¾Ö¹ÛÖÚ
+					// ï¿½ï¿½È¡ï¿½É¾Ö¹ï¿½ï¿½ï¿½
 					mapLastTemp = itrLast->second;
 					
-					// °Ñ¾É¾Ö¹ÛÖÚ¼ÓÈëÐÂ¾Ö
+					// ï¿½Ñ¾É¾Ö¹ï¿½ï¿½Ú¼ï¿½ï¿½ï¿½ï¿½Â¾ï¿½
 					map< string,map<CCustomerClient*,CCustomerClient*> >::iterator itrMapViewer = m_mapViewer.find(strNextChannelName.c_str());
 					if( itrMapViewer==m_mapViewer.end() )
 					{
@@ -268,7 +268,7 @@ void CCustomerService::DoSubscriberMsg(const char *channel_name,const char *mess
 						map<CCustomerClient*,CCustomerClient*>::iterator itrView = mapLastTemp.begin();
 						while( itrView!=mapLastTemp.end() )
 						{
-							// ÐÂÁ´±íÖÐÃ»ÓÐ£¬Ôò¼ÓÈë
+							// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½Ð£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 							map<CCustomerClient*,CCustomerClient*>::iterator itrClient = itrMapViewer->second.find(itrView->second);
 							if( itrClient==itrMapViewer->second.end() )
 							{  
@@ -282,7 +282,7 @@ void CCustomerService::DoSubscriberMsg(const char *channel_name,const char *mess
 						}
 					}
 					
-					// Çå³ý¾ÉµÄchannel¹ÛÖÚ
+					// ï¿½ï¿½ï¿½ï¿½Éµï¿½channelï¿½ï¿½ï¿½ï¿½
 					itrLast->second.clear();
 					m_mapViewer.erase(itrLast);
 				}
@@ -291,11 +291,11 @@ void CCustomerService::DoSubscriberMsg(const char *channel_name,const char *mess
 		                     				     channel_name);
 			}
 
-			// ¹ã²¥¸øÓÃ»§
+			// ï¿½ã²¥ï¿½ï¿½ï¿½Ã»ï¿½
 			CHANNELIT itrM = m_mapChannel.find(strNextChannelName.c_str());
 			if( itrM!=m_mapChannel.end() )
 			{
-				// TODO ½âÎöuserids,½«ÖØÁ¬µ½ÆäËû·þÎñÆ÷µÄÓÃ»§É¾³ý
+				// TODO ï¿½ï¿½ï¿½ï¿½userids,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½É¾ï¿½ï¿½
 				Json::Reader jReader(Json::Features::strictMode());
 				Json::FastWriter jWriter;
 				Json::Value jUserIdsArray,jGetRoot;
@@ -350,13 +350,13 @@ void CCustomerService::DoSubscriberMsg(const char *channel_name,const char *mess
 			CPrintLog::GetInstance()->LogFormat( LOG_NORMAL,"UserIds : end=%s",
 			             			     channel_name);
 		}
-		// ±¬À×Í¨Öª
+		// ï¿½ï¿½ï¿½ï¿½Í¨Öª
 		if(!jRoot["OverUserId"].isNull())
 		{
 			CPrintLog::GetInstance()->LogFormat( LOG_NORMAL,"-----[Boom]%s,OverUserId=%d,nextid=%d",channel_name,
                                                              jRoot["OverUserId"].asInt(), jRoot["NextUserId"].asInt());
 
-			// ²¹³ä¸üÐÂÓÃ»§ÐÅÏ¢ÎªÒÑÕ¨
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½Ï¢Îªï¿½ï¿½Õ¨
 			char szOverUserId[20]={0};
 			sprintf(szOverUserId,"%d",jRoot["OverUserId"].asInt());
 			CRedisPublisher::GetInstance()->UpdateUserStatus( channel_name,GetServerId(),
@@ -365,7 +365,7 @@ void CCustomerService::DoSubscriberMsg(const char *channel_name,const char *mess
 			CHANNELIT itrM = m_mapChannel.find(channel_name);
 			if( itrM!=m_mapChannel.end() )
 			{
-				//ÅÐ¶ÏÏÂÒ»¸öÓÃ»§ÊÇ·ñ±¾·þÎñÆ÷
+				//ï¿½Ð¶ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ã»ï¿½ï¿½Ç·ñ±¾·ï¿½ï¿½ï¿½ï¿½ï¿½
 				if(jRoot["NextUserId"].asInt()!=0)
 				{
 					bool bThisServer = false;
@@ -376,7 +376,7 @@ void CCustomerService::DoSubscriberMsg(const char *channel_name,const char *mess
 					{
 						if( strcmp(szNextUserId, (*itListFind)->GetUserId().c_str())==0 )
 						{
-							//ÊÇ±¾·þÎñÆ÷ÓÃ»§.
+							//ï¿½Ç±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½.
 							bThisServer = true;
 							break;
 						}
@@ -395,7 +395,7 @@ void CCustomerService::DoSubscriberMsg(const char *channel_name,const char *mess
 						itrM->second.strCurUserId = szNextUserId;
 						CRedisPublisher::GetInstance()->UpdateUserStatus( channel_name,
 												  GetServerId(),szNextUserId,USERROLE,-1);
-						// ÖØÖÃÕ¨µ¯Ê±¼ä
+						// ï¿½ï¿½ï¿½ï¿½Õ¨ï¿½ï¿½Ê±ï¿½ï¿½
 						int nRan = 0;
 						int nCountSec = itrM->second.nMaxTime-itrM->second.nMinTime;
 						if(nCountSec>0)
@@ -407,7 +407,7 @@ void CCustomerService::DoSubscriberMsg(const char *channel_name,const char *mess
 						itrM->second.nRemainTime  = itrM->second.nMaxTime-nRan; 
 					}
 				}
-				// Í¨Öª±¬À×
+				// Í¨Öªï¿½ï¿½ï¿½ï¿½
 				list<CCustomerClient*>::iterator itL = itrM->second.clientList.begin();
 				while( itL != itrM->second.clientList.end() )
 				{
@@ -416,10 +416,10 @@ void CCustomerService::DoSubscriberMsg(const char *channel_name,const char *mess
 				}
 				BroadcastViewer( COMMANDTYPE_S2C_GAMEOVER,message,channel_name);
 
-				// ÓÎÏ·½áÊø
+				// ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½
 				if(jRoot["NextUserId"].asInt()==0)
 				{
-					// ½áÊø
+					// ï¿½ï¿½ï¿½ï¿½
 					struct timespec ts_now;
 					clock_gettime(CLOCK_REALTIME,&ts_now);
 					itrM->second.nGameOverTime = ts_now.tv_sec;
@@ -455,10 +455,10 @@ void CCustomerService::CheckBoom()
                                    /*||(itr->second.nMaxStayTime<=0)*/
                                   )
 				{
-					//¸üÐÂÓÃ»§ÐÅÏ¢ÎªÒÑÕ¨
+					//ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½Ï¢Îªï¿½ï¿½Õ¨
 					CRedisPublisher::GetInstance()->UpdateUserStatus(itr->first,GetServerId(),
 									itr->second.strCurUserId.c_str(),0,-1);
-					//Ëæ»ú»ñÈ¡ÏÂÒ»¸öÓÃ»§³ÖÀ×
+					//ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½
 					string strNextUser="";
 					string strIdleUser;
 					int nIdleSize = CRedisPublisher::GetInstance()->GetIdleUser( itr->first,
@@ -469,7 +469,7 @@ void CCustomerService::CheckBoom()
 						strNextUser = strIdleUser;
 					}
 
-					// É¾³ýÊý¾Ý
+					// É¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 					int nRan = 0;
 					int nCountSec = itr->second.nMaxTime-itr->second.nMinTime;
 					if(nCountSec>0)
@@ -492,10 +492,10 @@ void CCustomerService::CheckBoom()
 					vector<int> vec;
 					vec.empty();
 					if(nIdleSize<=1)
-					{// ÓÎÏ·½áÊøÇåÀí
-						// ÏÈ²åÈëµÚÒ»Ãû
+					{// ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+						// ï¿½È²ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½
 						vec.push_back(atoi(strIdleUser.c_str()));
-						//»ñÈ¡ÅÅÃû
+						//ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½
 						CRedisPublisher::GetInstance()->GetOrderList(itr->first,vec);
 						
 						int nRet = m_oWebComm.PostBomb( itr->second.nGameId,
@@ -514,7 +514,7 @@ void CCustomerService::CheckBoom()
 					PublishBoom(itr->first.c_str(),itr->second.strCurUserId.c_str(),strNextUser.c_str(),strDataInfo);
 				}
 			}
-			// ¼ì²âÒÑ¿ªÊ¼ÓÎÏ·ÊÇ·ñ¹ýÆÚ5·ÖÖÓ ÊÍ·Å×ÊÔ´
+			// ï¿½ï¿½ï¿½ï¿½Ñ¿ï¿½Ê¼ï¿½ï¿½Ï·ï¿½Ç·ï¿½ï¿½ï¿½ï¿½5ï¿½ï¿½ï¿½ï¿½ ï¿½Í·ï¿½ï¿½ï¿½Ô´
 			struct timespec ts_now;
 			clock_gettime(CLOCK_REALTIME,&ts_now);
 			int nTick = ts_now.tv_sec;
@@ -541,7 +541,7 @@ CCustomerService::CCustomerService(void)
 {
 	g_pCustomerService = this;
 	memset(m_szMac,0,MAX_CHANNELNAME_LEN);
-	sem_init(&sem_lock, 0, 1); // ¿ÕÏÐµÄ
+	sem_init(&sem_lock, 0, 1); // ï¿½ï¿½ï¿½Ðµï¿½
 	sem_init(&semAllSockLock, 0, 1);
 	sem_init(&semViewerLock, 0, 1);
 	sem_init(&semQueLock, 0, 1);
@@ -599,13 +599,13 @@ void* CCustomerService::CheckAliveThread( void *param )
 	pthread_detach(pthread_self());
 	CCustomerService* pParam = (CCustomerService*)param;
 
-	// Ê×´ÎwebÁ¬½Ó²âÊÔ
+	// ï¿½×´ï¿½webï¿½ï¿½ï¿½Ó²ï¿½ï¿½ï¿½
 	sleep(1);
 	pParam->m_oWebComm.PostUserExitRoom(0,0,false,2);
 
 	while(1)
 	{
-		sleep(50);
+		sleep(10);
 		CPrintLog::GetInstance()->LogFormat(LOG_NORMAL,"CheckAlive..........");
 		pParam->CheckAlive();
 	}
@@ -645,11 +645,11 @@ void CCustomerService::CheckAlive()
 		    /*||(!pCustomerClient->IsValid())*/
 		   )
 		{
-			// szUserIdÓÐ¿ÉÄÜÎª¿Õ£¬ÒòÎªÁ¬ÉÏsocketÁË£¬µ«ÊÇ»¹Î´ÎÕÊÖ¾ÍµôÏß
+			// szUserIdï¿½Ð¿ï¿½ï¿½ï¿½Îªï¿½Õ£ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½socketï¿½Ë£ï¿½ï¿½ï¿½ï¿½Ç»ï¿½Î´ï¿½ï¿½ï¿½Ö¾Íµï¿½ï¿½ï¿½
 			CPrintLog::GetInstance()->LogFormat( LOG_NORMAL,"CheckAlive : Close %s,this=%u\n",pCustomerClient->GetUserId().c_str()
                                                              ,pCustomerClient);
 
-			// Èç¹ûÊÇ»¹Î´ÎÕÊÖµÄ£¬Ö±½ÓÉ¾³ý
+			// ï¿½ï¿½ï¿½ï¿½Ç»ï¿½Î´ï¿½ï¿½ï¿½ÖµÄ£ï¿½Ö±ï¿½ï¿½É¾ï¿½ï¿½
 			if(pCustomerClient->GetChannelName().length()==0)
 			{
 				pCustomerClient->Close();
@@ -660,7 +660,7 @@ void CCustomerService::CheckAlive()
 				continue;
 			}
 
-			// Èç¹ûÊÇ¹ÛÖÚ£¬´ÓÁÐ±íÒÆ³ý
+			// ï¿½ï¿½ï¿½ï¿½Ç¹ï¿½ï¿½Ú£ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½Æ³ï¿½
 			bool bHaveViewer = true;
 			int nLeft = DelViewer(pCustomerClient,pCustomerClient->GetChannelName().c_str());
 			if(nLeft==0)
@@ -669,7 +669,7 @@ void CCustomerService::CheckAlive()
 			//test by linqj
 			DelViewerInAll(pCustomerClient,pCustomerClient->GetChannelName().c_str());
 
-			// Èç¹ûÊÇÍæ¼Ò£¬´ÓÁÐ±íÒÆ³ý
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò£ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½Æ³ï¿½
 			sem_wait(&sem_lock);
 			CHANNELIT itrM = m_mapChannel.find(pCustomerClient->GetChannelName());
 			if( itrM!=m_mapChannel.end() )
@@ -682,7 +682,7 @@ void CCustomerService::CheckAlive()
 								     pCustomerClient->GetChannelName().c_str(),
                                                                      itrM->second.clientList.size());
 
-				// TODO Èç¹ûÓÃ»§ÉÁÍË£¬¿ÉÄÜsockÃ»ÊÕµ½closeÕâÀïÒª²¹clientofflineÁ÷³Ì--------------------------------------
+				// TODO ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½Ë£ï¿½ï¿½ï¿½ï¿½ï¿½sockÃ»ï¿½Õµï¿½closeï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½clientofflineï¿½ï¿½ï¿½ï¿½--------------------------------------
 				if( !pCustomerClient->IsOutRoom()  && !pCustomerClient->IsOffLine()
                                     &&!pCustomerClient->IsReconn2OtherServer()
                                   )
@@ -694,9 +694,9 @@ void CCustomerService::CheckAlive()
 					TagRedisGame tag;
 					CRedisPublisher::GetInstance()->GetGameTag(pCustomerClient->GetChannelName(),tag);
 					if(GAMESTATUSWAIT==tag.nGameStatus)
-					{//ÓÎÏ·Î´¿ªÊ¼
+					{//ï¿½ï¿½Ï·Î´ï¿½ï¿½Ê¼
 
-						// ±¾·þÎñÆ÷ÒÑÎÞ¹ÛÖÚºÍÓÃ»§
+						// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Þ¹ï¿½ï¿½Úºï¿½ï¿½Ã»ï¿½
 						//m_oSubscriber.unsubscribe(pCustomerClient->GetChannelName());
 						sem_wait(&g_pCustomerService->semUnSubQueLock);
 						g_pCustomerService->m_queUnSubMsg.push(pCustomerClient->GetChannelName());
@@ -704,7 +704,7 @@ void CCustomerService::CheckAlive()
 
 						m_mapChannel.erase(itrM);
 
-						// ÅÐ¶ÏredisÖÐËùÓÐÓÃ»§ÊÇ·ñ¶¼ÀëÏßÁË
+						// ï¿½Ð¶ï¿½redisï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 						bool bAllOff = CRedisPublisher::GetInstance()->IsAllOffLine(pCustomerClient->GetChannelName());
 						if(bAllOff)
 						{
@@ -719,8 +719,8 @@ void CCustomerService::CheckAlive()
 						
 					}
 					else
-					{//ÓÎÏ·ÒÑ¿ªÊ¼
-						// ³¬Ê±ÔÙÇåÀí
+					{//ï¿½ï¿½Ï·ï¿½Ñ¿ï¿½Ê¼
+						// ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 					}
 					
 				}
@@ -752,6 +752,7 @@ void CCustomerService::CheckAlive()
 	}
 	sem_post(&semAllSockLock);
 	//test gdb debug error
+	printf("test gdb debug error\n");
 	int* error = NULL;
 	int x = *error;
 }
@@ -776,7 +777,7 @@ void CCustomerService::SubscribeC(const char* szChannelName)
 			return ;
 		}
 
-		//µÈ´ýredis³É¹¦Á¬½Ó
+		//ï¿½È´ï¿½redisï¿½É¹ï¿½ï¿½ï¿½ï¿½ï¿½
 		struct timespec ts_now;
 		clock_gettime(CLOCK_REALTIME,&ts_now);
 
@@ -817,7 +818,7 @@ void CCustomerService::AddChannel(const char* szChannelName)
 	sem_wait(&sem_lock);
 	CHANNELIT itr = m_mapChannel.find(szChannelName);
 	if( itr==m_mapChannel.end() )
-	{/* ÆµµÀ²»´æÔÚÔò¶©ÔÄÆµµÀ */
+	{/* Æµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æµï¿½ï¿½ */
 		TagGame tagGame;
 		tagGame.nGameOverTime = 0x7ffffffd;
 		tagGame.bThisServer = false;
@@ -836,22 +837,22 @@ void CCustomerService::AddChannel(const char* szChannelName)
 int CCustomerService::ClientCreateRoom(CCustomerClient*pClient)
 {
 	int nRet = ERROR0NORMAL;
-	// Ëøredis£¬²¢²Ù×÷GameInfo get key
-	// Ëøredis£¬²¢»ñÈ¡ËùÓÐÓÃ»§²¢ÅÐ¶ÏÊÇ·ñ´æÔÚ¹ý
+	// ï¿½ï¿½redisï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½GameInfo get key
+	// ï¿½ï¿½redisï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½Ð¶ï¿½ï¿½Ç·ï¿½ï¿½ï¿½Ú¹ï¿½
 	//int nGameStatus = CRedisPublisher::GetInstance()->GetGameStatus(pClient->GetChannelName());
 	if(  //(nGameStatus==GAMESTATUSCOUNT) 
              //||(IsValidConnect(pClient->GetChannelName(),pClient->GetUserId())) 
              1
           )
 	{ 
-		// ´´½¨·¿¼äµÄÑéÖ¤£¬gameid=0
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¤ï¿½ï¿½gameid=0
 		int nJoinUserCount=0;
 		int nJoinType = 1;
 		int nWaitOpenGameTimeOut=300;
 		string strDataInfo="";
 		int nRealGameId = 0;
                 int nUpLoadId = 0;
-                #if TESTNOWEB //²âÊÔÎÞwebÇëÇóÄ£Ê½
+                #if TESTNOWEB //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½webï¿½ï¿½ï¿½ï¿½Ä£Ê½
 		nJoinUserCount = 1;
 		nUpLoadId = atoi(pClient->GetGameId().c_str());
 		#endif
@@ -869,19 +870,19 @@ int CCustomerService::ClientCreateRoom(CCustomerClient*pClient)
 				else
 					pClient->SetUserType(PLAYER);
 			
-				// Ëøm_mapChannel£¬²¢²Ù×÷ÓÃ»§Á´±í
+				// ï¿½ï¿½m_mapChannelï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½
 				AddUser(pClient);
 
 				if(nJoinUserCount==1)
 				{
-					// Ëøredis£¬²¢²Ù×÷GameInfo set key
+					// ï¿½ï¿½redisï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½GameInfo set key
 					CRedisPublisher::GetInstance()->CreateGameInfo( pClient->GetChannelName(),pClient->GetUserId(),
 											pClient->GetGameId(),nWaitOpenGameTimeOut,
 											pClient->GetMaxRemainTime(),pClient->GetMaxStayTime());
 				}
-				// Ëøredis£¬²¢»ñÈ¡ËùÓÐÓÃ»§
+				// ï¿½ï¿½redisï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½
 				if(pClient->GetLastChannelName().length()>0)
-				{// ÔÙÀ´Ò»¾Ö
+				{// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½
 					PublishUserIds( atoi(pClient->GetUserId().c_str()),
 							pClient->GetChannelName().c_str(),
                                                         pClient->GetLastChannelName().c_str(),
@@ -889,7 +890,7 @@ int CCustomerService::ClientCreateRoom(CCustomerClient*pClient)
                                                         strDataInfo);
 				}
 				else
-				{// ÆÕÍ¨´´½¨·¿¼ä
+				{// ï¿½ï¿½Í¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 					PublishUserIds( atoi(pClient->GetUserId().c_str()),pClient->GetChannelName().c_str(),
                                                         NULL,
 							atoi(pClient->GetGameId().c_str()),
@@ -917,14 +918,14 @@ int CCustomerService::ClientHandShake(CCustomerClient*pClient)
 	int nRet = 0;
 
 	if(pClient->GetUserType()==VIEWER)
-	{// ¹ÛÖÚÎÕÊÖ	
-		// Ëøm_mapChannel£¬²¢insert new channel
+	{// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	
+		// ï¿½ï¿½m_mapChannelï¿½ï¿½ï¿½ï¿½insert new channel
 		//AddChannel(pClient->GetChannelName().c_str());
 
-		// Ëøm_mapViewer£¬²¢²Ù×÷¹ÛÖÚÁ´±í
+		// ï¿½ï¿½m_mapViewerï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		AddViewer(pClient,pClient->GetChannelName().c_str());
 
-		// Ëøredis£¬²¢»ñÈ¡ËùÓÐÓÃ»§
+		// ï¿½ï¿½redisï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½
 		string strValue;
 		bool bRet = CRedisPublisher::GetInstance()->GetUserIds(pClient->GetChannelName().c_str(),strValue);
 		if(bRet)
@@ -934,9 +935,9 @@ int CCustomerService::ClientHandShake(CCustomerClient*pClient)
 		}
 	}
 	else if((pClient->GetUserType()==OWNER) || (pClient->GetUserType()==PLAYER))
-	{// Íæ¼ÒÎÕÊÖ
-		// Ëøredis£¬²¢²Ù×÷GameInfo get key
-		// Ëøredis£¬²¢»ñÈ¡ËùÓÐÓÃ»§²¢ÅÐ¶ÏÊÇ·ñ´æÔÚ¹ý
+	{// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		// ï¿½ï¿½redisï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½GameInfo get key
+		// ï¿½ï¿½redisï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½Ð¶ï¿½ï¿½Ç·ï¿½ï¿½ï¿½Ú¹ï¿½
 		//int nGameStatus = CRedisPublisher::GetInstance()->GetGameStatus(pClient->GetChannelName());
 		if(  //(nGameStatus==GAMESTATUSWAIT)
                      //||(IsValidConnect(pClient->GetChannelName(),pClient->GetUserId())) 
@@ -957,15 +958,15 @@ int CCustomerService::ClientHandShake(CCustomerClient*pClient)
 					pClient->SetGameId(nRealGameId);
 					pClient->SetChannelName(nRealGameId);
 				}
-				// ·¿Ö÷ÖØÁ¬
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				if(nJoinUserCount==1)
 					pClient->SetUserType(OWNER);
 				else
 					pClient->SetUserType(PLAYER);
-				// Ëøm_mapChannel£¬²¢insert new channel
+				// ï¿½ï¿½m_mapChannelï¿½ï¿½ï¿½ï¿½insert new channel
 				//AddChannel(pClient->GetChannelName().c_str());
 
-				// Ëøm_mapChannel£¬²¢²Ù×÷ÓÃ»§Á´±í
+				// ï¿½ï¿½m_mapChannelï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½
 				AddUser(pClient);
 				
 				/*TagRedisGame tag;
@@ -975,7 +976,7 @@ int CCustomerService::ClientHandShake(CCustomerClient*pClient)
 					// TODO 
 				}*/
 
-				// ÈËÂúÁË
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				string strIdleUser="";
 				int nIdleSize = CRedisPublisher::GetInstance()->GetIdleUser(pClient->GetChannelName(),"",strIdleUser);
 				if(nIdleSize==pClient->GetOpenGameUserCount())
@@ -983,7 +984,7 @@ int CCustomerService::ClientHandShake(CCustomerClient*pClient)
 					CRedisPublisher::GetInstance()->UpdateGameCreateTime(pClient->GetChannelName() );
 				}
 
-				// Ëøredis£¬²¢»ñÈ¡ËùÓÐÓÃ»§
+				// ï¿½ï¿½redisï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½
 				PublishUserIds(atoi(pClient->GetUserId().c_str()),pClient->GetChannelName().c_str(),NULL,0,strDataInfo);
 				nRet = SUCCESS;
 			}
@@ -1008,7 +1009,7 @@ int CCustomerService::ClientGameStart(CCustomerClient*pClient)
 	CRedisPublisher::GetInstance()->GetGameTag(pClient->GetChannelName().c_str(),tag);
 	if(GAMESTATUSWAIT==tag.nGameStatus)
 	{
-		// Ëøredis£¬²¢»ñÈ¡ËùÓÐÓÃ»§
+		// ï¿½ï¿½redisï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½
 		string strIdleUser;
 		int nIdleSize = CRedisPublisher::GetInstance()->GetIdleUser(pClient->GetChannelName(),"",strIdleUser);
 		CPrintLog::GetInstance()->LogFormat( LOG_NORMAL,"ClientGameStart : Player NUM=%d\n",nIdleSize);
@@ -1020,7 +1021,7 @@ int CCustomerService::ClientGameStart(CCustomerClient*pClient)
 								atoi(pClient->GetLiveId().c_str()) );
 			if(nPostRet>0)
 			{
-				// Ëøredis£¬²¢²Ù×÷GameInfo get/set key
+				// ï¿½ï¿½redisï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½GameInfo get/set key
 				int nRan = 0;
 				int nCountSec = pClient->GetMaxRemainTime()-pClient->GetMinRemainTime();
 				if(nCountSec>0)
@@ -1063,20 +1064,20 @@ int CCustomerService::ClientRoleChg(CCustomerClient*pClient,string strDestUserId
 {
 	int nRet = 0;
 	sem_wait(&sem_lock);
-	// Ëøredis£¬²¢¶ÁÈ¡Userinfo Status
-	// Ëøredis£¬²¢¶ÁÈ¡Userinfo Status
-	// Ëøredis£¬²¢¶ÁÈ¡Gameinfo CurUser
+	// ï¿½ï¿½redisï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡Userinfo Status
+	// ï¿½ï¿½redisï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡Userinfo Status
+	// ï¿½ï¿½redisï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡Gameinfo CurUser
 	if( (!IsBoom(pClient->GetChannelName(),GetServerId(),pClient->GetUserId()) )
 	&&  (!IsBoom(pClient->GetChannelName(),"",strDestUserId.c_str()) )
 	&&  (IsTheRole(pClient->GetChannelName(),pClient->GetUserId()))
 	)
 	{
-		// Ëøredis£¬²¢¸üÐÂUserinfo Status
+		// ï¿½ï¿½redisï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Userinfo Status
 		bool bRet = CRedisPublisher::GetInstance()->UpdateUserStatus(pClient->GetChannelName(),
 				GetServerId(),pClient->GetUserId(),USERIDLE,-1);
 		if(bRet)
 		{
-			// Ëøredis£¬²¢¸üÐÂGameinfo CurUser
+			// ï¿½ï¿½redisï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Gameinfo CurUser
 			int nLeft = GetTimeLeftAndStopBoomCheck(pClient->GetChannelName().c_str());
 			CPrintLog::GetInstance()->LogFormat( LOG_NORMAL,"game=%s,TIMELEFT=%d",pClient->GetChannelName().c_str(),nLeft);
 			bool bRet = CRedisPublisher::GetInstance()->UpdateGameInfo(
@@ -1106,24 +1107,24 @@ int CCustomerService::ClientExitRoom(CCustomerClient*pClient)
 	int nRet = 0;
 	
 	if(pClient->GetUserType()==VIEWER)
-	{// ¹ÛÖÚ
-		// Ëøm_mapViewer£¬²¢²Ù×÷¹ÛÖÚÁ´±í
+	{// ï¿½ï¿½ï¿½ï¿½
+		// ï¿½ï¿½m_mapViewerï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		DelViewer(pClient,pClient->GetChannelName().c_str());
 		nRet = SUCCESS;
 	}
 	else
 	{
-		// »ñÈ¡redisÍæ¼Ò±íÈ·ÈÏÊÇ·ñÍæ¼Ò
+		// ï¿½ï¿½È¡redisï¿½ï¿½Ò±ï¿½È·ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½
 		TagRedisUser tag;
 		CRedisPublisher::GetInstance()->GetUserInfo( pClient->GetChannelName().c_str(),GetServerId(),
 							     pClient->GetUserId().c_str(),tag);
 		if(tag.nType!=USERTYPECOUNT)
-		{// Íæ¼Ò
-			// Ëøredis£¬²¢¶ÁÈ¡Gameinfo Status
+		{// ï¿½ï¿½ï¿½
+			// ï¿½ï¿½redisï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡Gameinfo Status
 			int nStatus=CRedisPublisher::GetInstance()->GetGameStatus(pClient->GetChannelName().c_str());
 			if(nStatus==GAMESTATUSBEGIN)
-			{// ÓÎÏ·ÒÑ¿ªÊ¼,¸üÐÂÎª²»ÔÚ·¿¼ä
-				// Ëøredis£¬²¢¸üÐÂUserinfo Status
+			{// ï¿½ï¿½Ï·ï¿½Ñ¿ï¿½Ê¼,ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½Ú·ï¿½ï¿½ï¿½
+				// ï¿½ï¿½redisï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Userinfo Status
 				bool bRet = CRedisPublisher::GetInstance()->UpdateUserStatus(pClient->GetChannelName().c_str(),
 						GetServerId(),pClient->GetUserId().c_str(),-1,0,-1);
 
@@ -1131,13 +1132,13 @@ int CCustomerService::ClientExitRoom(CCustomerClient*pClient)
 		                                                     atoi(pClient->GetUserId().c_str()),true,EXIT_ACTION);
 			}
 			else
-			{// Ö±½ÓÉ¾³ý
+			{// Ö±ï¿½ï¿½É¾ï¿½ï¿½
 				if(tag.nType==OWNER)
-				{// ¸ü»»fz
+				{// ï¿½ï¿½ï¿½ï¿½fz
 					CRedisPublisher::GetInstance()->ChangeOwner( pClient->GetChannelName().c_str(),
 										     pClient->GetUserId().c_str());
 				}
-				// Ëøredis£¬²¢¸üÐÂUserinfo Status
+				// ï¿½ï¿½redisï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Userinfo Status
 				CRedisPublisher::GetInstance()->RemoveUserId( pClient->GetChannelName().c_str(),
 											     GetServerId(),
 		                                                                             pClient->GetUserId().c_str());
@@ -1149,7 +1150,7 @@ int CCustomerService::ClientExitRoom(CCustomerClient*pClient)
 				else
 					nRet=m_oWebComm.PostUserExitRoom( atoi(pClient->GetGameId().c_str()),
 		                                                     atoi(pClient->GetUserId().c_str()),false,EXIT_ACTION);
-				// Ëøredis£¬²¢»ñÈ¡ËùÓÐÓÃ»§
+				// ï¿½ï¿½redisï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½
 				PublishUserIds(atoi(pClient->GetUserId().c_str()),pClient->GetChannelName().c_str(),NULL,0,"",nStatus);
 			}
 		}
@@ -1171,17 +1172,17 @@ bool CCustomerService::ClientOffLine(CCustomerClient*pClient,bool bNotify)
 	{
 		CPrintLog::GetInstance()->LogFormat( LOG_NORMAL,"ClientOffLine : UserId=%s",pClient->GetUserId().c_str());
 
-		// »ñÈ¡redisÍæ¼Ò±íÈ·ÈÏÊÇ·ñÍæ¼Ò
+		// ï¿½ï¿½È¡redisï¿½ï¿½Ò±ï¿½È·ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½
 		TagRedisUser tag;
 		CRedisPublisher::GetInstance()->GetUserInfo( pClient->GetChannelName().c_str(),GetServerId(),
 							     pClient->GetUserId().c_str(),tag);
 		if(tag.nType!=USERTYPECOUNT)
-		{// Íæ¼Ò
-			// Ëøredis£¬²¢¶ÁÈ¡Gameinfo Status
+		{// ï¿½ï¿½ï¿½
+			// ï¿½ï¿½redisï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡Gameinfo Status
 			int nStatus=CRedisPublisher::GetInstance()->GetGameStatus(pClient->GetChannelName().c_str());
 			if(nStatus==GAMESTATUSBEGIN)
-			{// ÓÎÏ·ÒÑ¿ªÊ¼,¸üÐÂÎªÀëÏß
-				// Ëøredis£¬²¢¸üÐÂUserinfo Status
+			{// ï¿½ï¿½Ï·ï¿½Ñ¿ï¿½Ê¼,ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½
+				// ï¿½ï¿½redisï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Userinfo Status
 				bool bRet = CRedisPublisher::GetInstance()->UpdateUserStatus( pClient->GetChannelName().c_str(),
 											      GetServerId(),pClient->GetUserId().c_str(),-1,-1,0);
 				if(bNotify)
@@ -1189,13 +1190,13 @@ bool CCustomerService::ClientOffLine(CCustomerClient*pClient,bool bNotify)
 		                                                     atoi(pClient->GetUserId().c_str()),true,EXIT_SOCKET);		
 			}
 			else
-			{// Ö±½ÓÉ¾³ý
+			{// Ö±ï¿½ï¿½É¾ï¿½ï¿½
 				if(tag.nType==OWNER)
-				{// ¸ü»»fz
+				{// ï¿½ï¿½ï¿½ï¿½fz
 					CRedisPublisher::GetInstance()->ChangeOwner( pClient->GetChannelName().c_str(),
 										     pClient->GetUserId().c_str());
 				}
-				// Ëøredis£¬²¢¸üÐÂUserinfo Status
+				// ï¿½ï¿½redisï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Userinfo Status
 				CRedisPublisher::GetInstance()->RemoveUserId( pClient->GetChannelName().c_str(),
 											     GetServerId(),
 		                                                                             pClient->GetUserId().c_str());
@@ -1209,7 +1210,7 @@ bool CCustomerService::ClientOffLine(CCustomerClient*pClient,bool bNotify)
 					else if(nUserNum>0)
 						m_oWebComm.PostUserExitRoom( atoi(pClient->GetGameId().c_str()),
 				                                             atoi(pClient->GetUserId().c_str()),false,EXIT_SOCKET);
-					// Ëøredis£¬²¢»ñÈ¡ËùÓÐÓÃ»§
+					// ï¿½ï¿½redisï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½
 					PublishUserIds(atoi(pClient->GetUserId().c_str()),pClient->GetChannelName().c_str(),NULL,0,"",nStatus);
 				}
 				
@@ -1228,7 +1229,7 @@ void CCustomerService::AddUser(CCustomerClient*pClient)
 	sem_wait(&sem_lock);
 	CHANNELIT itr = m_mapChannel.find(pClient->GetChannelName());
 	if( itr==m_mapChannel.end() )
-	{/* ÆµµÀ²»´æÔÚÔò¶©ÔÄÆµµÀ */
+	{/* Æµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æµï¿½ï¿½ */
 		TagGame tagGame;
 		tagGame.nGameOverTime = 0x7ffffffd;
 		tagGame.bThisServer = false;
@@ -1239,14 +1240,14 @@ void CCustomerService::AddUser(CCustomerClient*pClient)
 		tagGame.strLastChannelName = pClient->GetLastChannelName();
 		tagGame.clientList.push_back(pClient);
 
-		// ÔÙÀ´Ò»¾Ö///////////////////////////////////
+		// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½///////////////////////////////////
 		if(pClient->GetLastChannelName().length()>0)
 		{
-			// Íæ¼Ò²Ù×÷
+			// ï¿½ï¿½Ò²ï¿½ï¿½ï¿½
 			CHANNELIT itrM = m_mapChannel.find(pClient->GetLastChannelName());
 			if( itrM!=m_mapChannel.end() )
 			{
-				// ÌáÈ¡Íæ¼Ò
+				// ï¿½ï¿½È¡ï¿½ï¿½ï¿½
 				list<CCustomerClient*>::iterator itListFind = itrM->second.clientList.begin();
 				while(itListFind != itrM->second.clientList.end())
 				{
@@ -1258,7 +1259,7 @@ void CCustomerService::AddUser(CCustomerClient*pClient)
 					}
 					itListFind++;
 				}
-				// Çå³ý¾ÉµÄÍæ¼Ò£¬ÓÎÏ·id
+				// ï¿½ï¿½ï¿½ï¿½Éµï¿½ï¿½ï¿½Ò£ï¿½ï¿½ï¿½Ï·id
 				itrM->second.clientList.clear();
 				m_mapChannel.erase(itrM);
 				//m_oSubscriber.unsubscribe(pClient->GetLastChannelName());
@@ -1266,13 +1267,13 @@ void CCustomerService::AddUser(CCustomerClient*pClient)
 				g_pCustomerService->m_queUnSubMsg.push(pClient->GetLastChannelName());
 				sem_post(&g_pCustomerService->semUnSubQueLock);
 			}
-			// ¹ÛÖÚ²Ù×÷
+			// ï¿½ï¿½ï¿½Ú²ï¿½ï¿½ï¿½
 			sem_wait(&semViewerLock);
 			map<CCustomerClient*,CCustomerClient*> mapLastTemp;
 			map< string,map<CCustomerClient*,CCustomerClient*> >::iterator itrLast = m_mapViewer.find(pClient->GetLastChannelName());
 			if( itrLast!=m_mapViewer.end() )
 			{  
-				// ÌáÈ¡¹ÛÖÚ
+				// ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½
 				mapLastTemp = itrLast->second;
 				map<CCustomerClient*,CCustomerClient*>::iterator itrView = mapLastTemp.begin();
 				while( itrView!=mapLastTemp.end() )
@@ -1281,11 +1282,11 @@ void CCustomerService::AddUser(CCustomerClient*pClient)
 					itrView->second->SetGameId(tagGame.nGameId);
 					itrView++;
 				}
-				// Çå³ý¾ÉµÄchannel¹ÛÖÚ
+				// ï¿½ï¿½ï¿½ï¿½Éµï¿½channelï¿½ï¿½ï¿½ï¿½
 				itrLast->second.clear();
 				m_mapViewer.erase(itrLast);
 			}
-			// °Ñ¹ÛÖÚ¼Ó½øÀ´
+			// ï¿½Ñ¹ï¿½ï¿½Ú¼Ó½ï¿½ï¿½ï¿½
 			map< string,map<CCustomerClient*,CCustomerClient*> >::iterator itrNow = m_mapViewer.find(pClient->GetChannelName());
 			if( itrNow==m_mapViewer.end() )
 			{
@@ -1320,7 +1321,7 @@ void CCustomerService::AddUser(CCustomerClient*pClient)
 	}
 	sem_post(&sem_lock);
 	
-	// Êý¾Ý¿â
+	// ï¿½ï¿½ï¿½Ý¿ï¿½
 	CRedisPublisher::GetInstance()->AddUserId( pClient->GetChannelName(),GetServerId(),
 						   pClient->GetUserId(),pClient->GetUserType(),pClient->GetUserPic(),pClient->GetUserName());
 }
@@ -1334,7 +1335,7 @@ int CCustomerService::GetTimeLeftAndStopBoomCheck(const char *channel_name)
 	{
 		int nTimeLeftRedis = itr->second.nMaxTime;
 
-		// »»À×£¬ÔÝÍ£¼ì²â
+		// ï¿½ï¿½ï¿½×£ï¿½ï¿½ï¿½Í£ï¿½ï¿½ï¿½
 		itr->second.bThisServer = false;
 		nTimeLeft = itr->second.nRemainTime;
 	}
@@ -1451,7 +1452,7 @@ bool CCustomerService::IsValidConnect(string strTable,string strUserId)
 			}
 		}
 		else if(strValue.length()==0)
-		{// ÁÐ±íÎª¿Õ
+		{// ï¿½Ð±ï¿½Îªï¿½ï¿½
 			CPrintLog::GetInstance()->LogFormat(LOG_NORMAL,"GetUserIds = 0\n");
 			bValid=true;
 		}
@@ -1467,7 +1468,7 @@ void CCustomerService::AddViewer(CCustomerClient*pClient,const char* szChannelNa
 	sem_wait(&sem_lock);
 	CHANNELIT itrM = m_mapChannel.find(szChannelName);
 	if( itrM==m_mapChannel.end() )
-	{/* ÆµµÀ²»´æÔÚÔò¶©ÔÄÆµµÀ */
+	{/* Æµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æµï¿½ï¿½ */
 		TagGame tagGame;
 		tagGame.nGameOverTime = 0x7ffffffd;
 		tagGame.nGameId  = atoi(pClient->GetGameId().c_str());
@@ -1571,7 +1572,7 @@ void CCustomerService::PublishUserIds(int nUserId,const char *szChannelName,cons
 		Json::FastWriter jWriter;
 		if(jReader.parse((const char*)strValue.c_str(),jGetRoot))
 		{
-			// ¼ÓÈëÊ±¼ä 
+			// ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ 
 			TagRedisGame tag;
 			CRedisPublisher::GetInstance()->GetGameTag(szChannelName,tag);
 			if(GAMESTATUSWAIT==tag.nGameStatus)
@@ -1585,7 +1586,7 @@ void CCustomerService::PublishUserIds(int nUserId,const char *szChannelName,cons
 				}
 			}
 
-			// ¼ÓÈëData×Ö¶Î
+			// ï¿½ï¿½ï¿½ï¿½Dataï¿½Ö¶ï¿½
 			Json::Value jData;
 			Json::Reader jDataReader(Json::Features::strictMode());
 			if(jDataReader.parse((const char*)strDataInfo.c_str(),jData))
@@ -1593,7 +1594,7 @@ void CCustomerService::PublishUserIds(int nUserId,const char *szChannelName,cons
 				jGetRoot["Data"]=jData;
 			}
 
-			// ÔÙÀ´Ò»¾Ö ¼ÓÉÏNextGameId×Ö¶Î
+			// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½NextGameIdï¿½Ö¶ï¿½
 			if(szLastChannelName!=NULL)
 			{ 
 				jGetRoot["SrcUserId"] = nUserId;
@@ -1604,9 +1605,9 @@ void CCustomerService::PublishUserIds(int nUserId,const char *szChannelName,cons
 			
 			}
 			else
-			{ // ÆÕÍ¨ 
+			{ // ï¿½ï¿½Í¨ 
 				if(nGameId!=0)
-				{// Èç¹ûÊÇ´´½¨·¿¼ä£¬¼ÓÉÏGameId×Ö¶Î
+				{// ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ä£¬ï¿½ï¿½ï¿½ï¿½GameIdï¿½Ö¶ï¿½
 				
 					jGetRoot["GameId"] = nGameId;
 				}

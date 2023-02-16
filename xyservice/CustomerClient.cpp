@@ -208,7 +208,7 @@ int CCustomerClient::ProcessHeartBeat( string strData )
 {
 	// 
  	struct timespec ts_now;
-        clock_gettime(CLOCK_REALTIME,&ts_now);
+    clock_gettime(CLOCK_REALTIME,&ts_now);
 	m_nTick = ts_now.tv_sec;
 	return SUCCESS;
 }
